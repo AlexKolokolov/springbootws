@@ -3,14 +3,23 @@ package org.kolokolov.boot.model;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+@Entity
 public class Client {
 
     @JsonProperty
-    private final int id;
+    @Id
+    @GeneratedValue
+    private int id;
     @JsonProperty("first_name")
-    private final String firstName;
+    private String firstName;
     @JsonProperty("last_name")
-    private final String lastName;
+    private String lastName;
+
+    public Client() {}
 
     @JsonCreator
     public Client(@JsonProperty("id") int id,
