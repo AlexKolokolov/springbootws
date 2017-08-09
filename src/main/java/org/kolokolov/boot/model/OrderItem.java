@@ -6,13 +6,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class OrderItem {
 
     @JsonProperty
-    private String name;
+    private final String name;
+
     @JsonProperty
-    private int amount;
+    private final int amount;
 
-    public OrderItem() {}
-
-    public OrderItem(String name, int amount) {
+    @JsonCreator
+    public OrderItem(@JsonProperty("name") String name, @JsonProperty("amount") int amount) {
         this.name = name;
         this.amount = amount;
     }
