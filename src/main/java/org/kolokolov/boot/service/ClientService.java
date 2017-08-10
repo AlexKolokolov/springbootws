@@ -28,7 +28,22 @@ public class ClientService {
         return clients;
     }
 
+    public Client getClientById(int id) {
+        return clientRepository.findOne(id);
+    }
+
     public void addNewClient(Client client) {
         clientRepository.save(client);
+    }
+
+    public void updateClient(int id, Client client) {
+        if (id > 0) {
+            client.setId(id);
+            clientRepository.save(client);
+        } else throw new IllegalArgumentException("Client ID should be positive integer");
+    }
+
+    public void deleteClientById(int id) {
+        clientRepository.delete(id);
     }
 }
