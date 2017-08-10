@@ -1,7 +1,7 @@
 package org.kolokolov.boot.rest;
 
 import org.kolokolov.boot.model.Client;
-import org.kolokolov.boot.model.Order;
+import org.kolokolov.boot.model.ShopOrder;
 import org.kolokolov.boot.service.ClientService;
 import org.kolokolov.boot.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,12 +25,12 @@ public class Controller {
     }
 
     @RequestMapping(value = "/orders",method = GET)
-    public List<Order> getAllOrders() {
+    public List<ShopOrder> getAllOrders() {
         return orderService.getAllOrders();
     }
 
     @RequestMapping(value = "/orders",method = POST)
-    public void addNewOrder(@RequestBody(required = true) Order order) {
+    public void addNewOrder(@RequestBody(required = true) ShopOrder order) {
         orderService.addNewOrder(order);
     }
 

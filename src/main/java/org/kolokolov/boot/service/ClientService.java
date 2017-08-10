@@ -16,10 +16,14 @@ public class ClientService {
     @Autowired
     public ClientService(ClientRepository clientRepository) {
         this.clientRepository = clientRepository;
-        clientRepository.save(new Client(1, "Bob", "Marley"));
-        clientRepository.save(new Client(2, "Elvis", "Presley"));
-        clientRepository.save(new Client(3, "Tom", "Waits"));
-        clientRepository.save(new Client(4, "Ron", "Perlman"));
+        populateDatabase();
+    }
+
+    private void populateDatabase() {
+        clientRepository.save(new Client(0, "Bob", "Marley"));
+        clientRepository.save(new Client(0, "Elvis", "Presley"));
+        clientRepository.save(new Client(0, "Tom", "Waits"));
+        clientRepository.save(new Client(0, "Ron", "Perlman"));
     }
 
     public List<Client> getAllClients() {

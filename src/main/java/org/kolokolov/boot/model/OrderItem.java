@@ -1,19 +1,33 @@
 package org.kolokolov.boot.model;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import javax.persistence.*;
 
+@Entity
 public class OrderItem {
 
-    @JsonProperty
-    private final String name;
+    @Id
+    @GeneratedValue
+    private int id;
+    private String name;
+    private int amount;
 
-    @JsonProperty
-    private final int amount;
+    public OrderItem() {}
 
-    @JsonCreator
-    public OrderItem(@JsonProperty("name") String name, @JsonProperty("amount") int amount) {
+    public OrderItem(int id, String name, int amount) {
+        this.id = id;
         this.name = name;
         this.amount = amount;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getAmount() {
+        return amount;
     }
 }

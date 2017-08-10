@@ -1,34 +1,44 @@
 package org.kolokolov.boot.service;
 
-import org.kolokolov.boot.model.Order;
+import org.kolokolov.boot.model.ShopOrder;
 import org.kolokolov.boot.model.OrderItem;
+import org.kolokolov.boot.repo.OrderRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
 public class OrderService {
 
-    private final List<Order> orders = new ArrayList<>();
+    private OrderRepository orderRepository;
 
-    {
-        List<OrderItem> items1 = new ArrayList<>();
-        items1.add(new OrderItem("1911",2));
-        items1.add(new OrderItem("MP5",3));
-        orders.add(new Order(items1));
-
-        List<OrderItem> items2 = new ArrayList<>();
-        items2.add(new OrderItem("FiveSeven",2));
-        items2.add(new OrderItem("P90",3));
-        orders.add(new Order(items2));
+    @Autowired
+    public OrderService(OrderRepository orderRepository) {
+        this.orderRepository = orderRepository;
+        populateDatabase();
     }
 
-    public List<Order> getAllOrders() {
+    private void populateDatabase() {
+        orderRepository.save(new ShopOrder(0, new ArrayList<>(Arrays.asList(
+                new OrderItem(0,"1911",2),
+                new OrderItem(0,"MP5",3)
+        ))));
+        orderRepository.save(new ShopOrder(0, new ArrayList<>(Arrays.asList(
+                new OrderItem(0,"FiveSeven",2),
+                new OrderItem(0,"P90",3)
+        ))));
+    }
+
+    public List<ShopOrder> getAllOrders() {
+        List<ShopOrder> orders = new ArrayList<>();
+        orderRepository.findAll().forEach(orders::add);
         return orders;
     }
 
-    public void addNewOrder(Order order) {
-        orders.add(order);
+    public void addNewOrder(ShopOrder order) {
+        orderRepository.save(order);
     }
 }
