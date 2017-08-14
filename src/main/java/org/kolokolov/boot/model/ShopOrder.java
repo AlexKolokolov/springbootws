@@ -10,8 +10,9 @@ public class ShopOrder {
     @Id
     @GeneratedValue
     private int id;
-    @OneToMany(fetch = FetchType.EAGER)
-    @Cascade(org.hibernate.annotations.CascadeType.ALL)
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @Cascade(org.hibernate.annotations.CascadeType.PERSIST)
     private List<OrderItem> items;
 
     public ShopOrder() {}
