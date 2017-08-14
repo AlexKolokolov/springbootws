@@ -1,6 +1,7 @@
 package org.kolokolov.boot.model;
 
 import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import javax.persistence.*;
 import java.util.List;
 
@@ -12,7 +13,7 @@ public class ShopOrder {
     private int id;
 
     @OneToMany(fetch = FetchType.LAZY)
-    @Cascade(org.hibernate.annotations.CascadeType.PERSIST)
+    @Cascade(value = CascadeType.PERSIST)
     private List<OrderItem> items;
 
     public ShopOrder() {}
