@@ -40,8 +40,13 @@ public class Controller {
     }
 
     @RequestMapping(value = "/clients",method = POST)
-    public void addNewClient(@RequestBody(required = true) Client client) {
-        clientService.addNewClient(client);
+    public Client addNewClient(@RequestBody(required = true) Client client) {
+        return clientService.addNewClient(client);
+    }
+
+    @RequestMapping(value = "/clients/{id}", method = GET)
+    public Client getClientById(@PathVariable(required = true) int id) {
+        return clientService.getClientById(id);
     }
 
     @RequestMapping(value = "/clients/{id}",method = PUT)

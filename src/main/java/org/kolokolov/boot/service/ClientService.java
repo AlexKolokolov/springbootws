@@ -36,8 +36,8 @@ public class ClientService {
         return clientRepository.findOne(id);
     }
 
-    public void addNewClient(Client client) {
-        clientRepository.save(client);
+    public Client addNewClient(Client client) {
+        return clientRepository.save(client);
     }
 
     public void updateClient(int id, Client client) {
