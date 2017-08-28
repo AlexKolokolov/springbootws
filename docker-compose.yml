@@ -1,0 +1,12 @@
+version: '2'
+
+services:
+  psql-db:
+    image: alexkolokolov/spring-db
+
+  spring-ws:
+    image: alexkolokolov/spring-boot-ws:2.0
+    ports:
+      - 8080:8080
+    depends_on:
+      - psql-db
