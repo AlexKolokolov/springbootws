@@ -1,7 +1,9 @@
 package org.kolokolov.boot.rest;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import org.kolokolov.boot.model.Client;
 import org.kolokolov.boot.model.ShopOrder;
+import org.kolokolov.boot.model.View;
 import org.kolokolov.boot.service.ClientService;
 import org.kolokolov.boot.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,12 +27,19 @@ public class Controller {
     }
 
     @RequestMapping(value = "/orders",method = GET)
+    @JsonView(View.Summary.class)
     public List<ShopOrder> getAllOrders() {
         return orderService.getAllOrders();
     }
 
+    @RequestMapping(value = "/orders/{id}", method = GET)
+    public ShopOrder getOrderById(@PathVariable(required = true) int id) {
+        return orderService.getOrderById(id);
+    }
+
     @RequestMapping(value = "/orders",method = POST)
     public void addNewOrder(@RequestBody(required = true) ShopOrder order) {
+        System.out.println(order);
         orderService.addNewOrder(order);
     }
 

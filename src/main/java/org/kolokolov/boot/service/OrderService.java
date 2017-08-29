@@ -22,20 +22,27 @@ public class OrderService {
     }
 
     private void populateDatabase() {
-        orderRepository.save(new ShopOrder(0, new ArrayList<>(Arrays.asList(
+        ShopOrder order1 = new ShopOrder();
+        List<OrderItem> order1items = Arrays.asList(
                 new OrderItem(0,"1911",2),
-                new OrderItem(0,"MP5",3)
-        ))));
-        orderRepository.save(new ShopOrder(0, new ArrayList<>(Arrays.asList(
+                new OrderItem(0,"MP5",3));
+        order1.setItems(order1items);
+        orderRepository.saveAndFlush(order1);
+
+        ShopOrder order2 = new ShopOrder();
+        List<OrderItem> order2items = Arrays.asList(
                 new OrderItem(0,"FiveSeven",2),
-                new OrderItem(0,"P90",3)
-        ))));
+                new OrderItem(0,"P90",3));
+        order2.setItems(order2items);
+        orderRepository.saveAndFlush(order2);
     }
 
     public List<ShopOrder> getAllOrders() {
-        List<ShopOrder> orders = new ArrayList<>();
-        orderRepository.findAll().forEach(orders::add);
-        return orders;
+        return orderRepository.findAll();
+    }
+
+    public ShopOrder getOrderById(int id) {
+        return  orderRepository.findOne(id);
     }
 
     public void addNewOrder(ShopOrder order) {
