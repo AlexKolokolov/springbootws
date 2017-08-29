@@ -5,7 +5,7 @@ services:
     image: alexkolokolov/spring-db
 
   spring-ws:
-    image: alexkolokolov/spring-boot-ws:2.0
+    image: alexkolokolov/spring-boot-ws:2.1
     ports:
       - 8080:8080
     depends_on:

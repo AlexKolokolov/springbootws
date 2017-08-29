@@ -1,19 +1,26 @@
 package org.kolokolov.boot.model;
 
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
-import javax.persistence.*;
+import com.fasterxml.jackson.annotation.JsonView;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
-public class ShopOrder {
+public class ShopOrder implements Serializable {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonView(View.Summary.class)
     private int id;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @Cascade(value = CascadeType.PERSIST)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private List<OrderItem> items;
 
     public ShopOrder() {}
@@ -29,5 +36,21 @@ public class ShopOrder {
 
     public List<OrderItem> getItems() {
         return items;
+    }
+
+    public void setItems(List<OrderItem> items) {
+        this.items = items;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return "ShopOrder{" +
+                "id=" + id +
+                ", items=" + items +
+                '}';
     }
 }
