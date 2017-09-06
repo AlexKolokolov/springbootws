@@ -17,11 +17,12 @@
                 writer: new Ext.data.JsonWriter({
                     encode: false,
                     writeAllFields: true,
+                    // makes writer send row (not wrapped) data to server
                     render: function (params, baseParams, data) {
                         params.jsonData = data;
                     }
                 }),
-                autoLoad: true,
+                autoLoad: true, // makes explicit call of load() unnecessary
                 autoSave: false
 			});
 			clientStore.setDefaultSort('id','asc');
@@ -66,7 +67,7 @@
 					autoHeight: true,
 					loadMask: true,
                     clicksToEdit: 1,
-                    tbar: { items: [
+                    bbar: { items: [
                         { text: 'Save Changes',
                             iconCls:'btn-save',
                             handler: function() {
@@ -75,7 +76,7 @@
                         }
                     ]}
 				});
-//				clientStore.load();
+                // clientStore.load();
 				console.log(clientStore);
 			});
 		</script>
