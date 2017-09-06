@@ -2,10 +2,11 @@ package org.kolokolov.boot.service;
 
 import org.kolokolov.boot.model.Client;
 import org.kolokolov.boot.repo.ClientRepository;
+import static org.kolokolov.boot.model.Occupation.*;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -20,16 +21,17 @@ public class ClientService {
     }
 
     private void populateDatabase() {
-        clientRepository.save(new Client(0, "Bob", "Marley"));
-        clientRepository.save(new Client(0, "Elvis", "Presley"));
-        clientRepository.save(new Client(0, "Tom", "Waits"));
-        clientRepository.save(new Client(0, "Ron", "Perlman"));
+        clientRepository.save(new Client(0, "Bob", "Marley", SINGER));
+        clientRepository.save(new Client(0, "Elvis", "Presley", SINGER));
+        clientRepository.save(new Client(0, "Tom", "Waits", SINGER));
+        clientRepository.save(new Client(0, "Ron", "Perlman", ACTOR));
+        clientRepository.save(new Client(0, "Shaquille", "O'Neal", ATHLETE));
+        clientRepository.save(new Client(0, "Ralph", "Fiennes", ACTOR));
+        clientRepository.save(new Client(0, "Michael", "Jordan", ATHLETE));
     }
 
     public List<Client> getAllClients() {
-        List<Client> clients = new ArrayList<>();
-        clientRepository.findAll().forEach(clients::add);
-        return clients;
+        return clientRepository.findAll();
     }
 
     public Client getClientById(int id) {
