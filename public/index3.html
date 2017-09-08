@@ -1,0 +1,58 @@
+<!doctype html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Ext JS Demo</title>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/extjs/3.4.1-1/resources/css/ext-all.css">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/extjs/3.4.1-1/adapter/ext/ext-base.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/extjs/3.4.1-1/ext-all-debug.js"></script>
+    <script type="text/javascript">
+			Ext.BLANK_IMAGE_URL = 'https://cdnjs.cloudflare.com/ajax/libs/extjs/3.4.1-1/resources/images/default/s.gif';
+			function clientsActivationHandler(tab) {
+                tab.load({
+                    url: '/rest/clients',
+                    method: 'GET',
+                    params: 'xaction=load'
+                })
+            }
+            function ordersActivationHandler(tab) {
+                tab.load({
+                    url: '/rest/orders',
+                    method: 'GET',
+                    params: 'xaction=load'
+                })
+            }
+			Ext.onReady(function() {
+				var tabs = new Ext.TabPanel({
+                    renderTo: Ext.getBody(),
+                    activeTab: 0,
+                    width: 600,
+                    height: 250,
+                    plain: true,
+                    defaults: { autoScroll: true },
+                    items: [
+                        {
+                            title: 'First Tab',
+                            HTML: ""
+                        },
+                        {
+                            title: 'Clients',
+                            bodyStyle: 'padding: 5px;',
+                            listeners: { activate: clientsActivationHandler }
+                        },
+                        {
+                            title: 'Orders',
+                            bodyStyle: 'padding: 5px;',
+                            listeners: { activate: ordersActivationHandler }
+                        },
+                        {
+                            title: 'Grid',
+                            bodyStyle: 'padding: 5px;',
+                            autoLoad: 'staticpage.html'
+                        }
+                    ]
+                });
+			});
+		</script>
+</head>
+<body>
+</body>
