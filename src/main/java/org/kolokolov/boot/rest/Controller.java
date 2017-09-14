@@ -2,8 +2,10 @@ package org.kolokolov.boot.rest;
 
 import org.kolokolov.boot.model.Client;
 import org.kolokolov.boot.model.ShopOrder;
+import org.kolokolov.boot.model.Vendor;
 import org.kolokolov.boot.service.ClientService;
 import org.kolokolov.boot.service.OrderService;
+import org.kolokolov.boot.service.VendorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,11 +19,14 @@ public class Controller {
 
     private final OrderService orderService;
     private final ClientService clientService;
+    private final VendorService vendorService;
+
 
     @Autowired
-    public Controller(OrderService orderItemService,ClientService clientService) {
+    public Controller(OrderService orderItemService,ClientService clientService,VendorService vendorService) {
         this.orderService = orderItemService;
         this.clientService = clientService;
+        this.vendorService = vendorService;
     }
 
     @RequestMapping(value = "/orders",method = GET)
@@ -32,6 +37,16 @@ public class Controller {
     @RequestMapping(value = "/orders",method = POST)
     public void addNewOrder(@RequestBody(required = true) ShopOrder order) {
         orderService.addNewOrder(order);
+    }
+
+    @RequestMapping(value = "/vendors",method = GET)
+    public List<Vendor> getAllVendors() {
+        return vendorService.getAllVendors();
+    }
+
+    @RequestMapping(value = "/vendors",method = POST)
+    public void addNewOrder(@RequestBody(required = true) Vendor vendor) {
+        vendorService.addNewVendor(vendor);
     }
 
     @RequestMapping(value = "/clients",method = GET)
