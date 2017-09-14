@@ -1,4 +1,4 @@
 .idea
 target
-springbootws.iml
+*.iml
 *.log
