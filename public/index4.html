@@ -1,0 +1,77 @@
+<!doctype html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Ext JS Demo</title>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/extjs/3.4.1-1/resources/css/ext-all.css">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/extjs/3.4.1-1/adapter/ext/ext-base.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/extjs/3.4.1-1/ext-all-debug.js"></script>
+    <script type="text/javascript">
+
+        Ext.onReady(function() {
+            var viewport = new Ext.Viewport({
+                layout: 'border',
+                renderTo: Ext.getBody(),
+                items: [
+                    {
+                        region: 'north',
+                        xtype: 'panel',
+                        split: true,
+                        html: '<b>North</b>'
+                    },{
+                        region: 'south',
+                        xtype: 'panel',
+                        split: true,
+                        html: '<b>South</b>'
+                    },{
+                        region: 'east',
+                        xtype: 'panel',
+                        split: true,
+                        html: '<b>East</b>'
+                    },{
+                        region: 'west',
+                        xtype: 'panel',
+                        title: 'Info',
+                        split: true,
+                        collapsible: true,
+                        width: 300,
+                        bodyCfg: {
+                            id: 'treePanel'
+                        }
+                    },{
+                        region: 'center',
+                        split: true,
+                        xtype: 'tabpanel',
+                        activeTab: 0,
+                        padding: 10,
+                        items: [
+                            {
+                                title: 'Movies',
+                                html: '<b>Movies\' list</b>'
+                            },
+                            {
+                                title: 'Actors',
+                                html: '<b>Actors\' list</b>'
+                            }
+                        ]
+                    }
+                ]
+            });
+            var treeLoader = new Ext.tree.TreeLoader({
+                dataUrl: 'rest/vendors',
+                requestMethod: 'GET'
+            });
+            var rootNode = new Ext.tree.AsyncTreeNode({
+                text: 'Vendors'
+            });
+            var tree = new Ext.tree.TreePanel({
+                renderTo: 'treePanel',
+                loader: treeLoader,
+                dataUrl: 'rest/orders',
+                root: rootNode,
+                enableDD: true
+            });
+        });
+    </script>
+</head>
+<body>
+</body>

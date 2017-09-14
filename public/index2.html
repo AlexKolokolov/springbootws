@@ -33,7 +33,7 @@
 					columns: [
 						{header: "ID", width: 30, dataIndex: 'id', sortable: true},
 						{
-						    header: "First Name",
+						    header: "Name",
                             width: 100,
                             dataIndex: 'firstName',
                             sortable: true,
@@ -67,11 +67,42 @@
 					autoHeight: true,
 					loadMask: true,
                     clicksToEdit: 1,
+                    sm: new Ext.grid.RowSelectionModel({
+                        singleSelect: true
+                    }),
                     bbar: { items: [
-                        { text: 'Save Changes',
-                            iconCls:'btn-save',
+                        {
+                            text: 'Save Changes',
                             handler: function() {
                                 clientStore.save();
+                                clientStore.commitChanges();
+//                                clientStore.load();
+                            }
+                        },
+                        {
+                            text: 'Delete',
+                            handler: function() {
+                                var sm = grid.getSelectionModel();
+                                if (sm.hasSelection()) {
+                                    var sel = sm.getSelected();
+                                    Ext.Msg.show({
+                                        title: 'Remove Client profile',
+                                        buttons: Ext.MessageBox.YESNOCANCEL,
+                                        msg: 'Remove ' + sel.data.firstName + ' ' + sel.data.lastName + '?',
+                                        fn: function (btn) {
+                                            if (btn === 'yes') {
+                                                var conn = new Ext.data.Connection();
+                                                conn.request({
+                                                    url: 'rest/clients/' + sel.data.id,
+                                                    method: 'DELETE',
+                                                    success: function () {
+                                                        grid.getStore().remove(sel)
+                                                    }
+                                                })
+                                            }
+                                        }
+                                    });
+                                }
                             }
                         }
                     ]}

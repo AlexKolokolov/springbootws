@@ -8,28 +8,34 @@
     <script type="text/javascript">
 			Ext.BLANK_IMAGE_URL = 'https://cdnjs.cloudflare.com/ajax/libs/extjs/3.4.1-1/resources/images/default/s.gif';
 			var clientStore = new Ext.data.JsonStore({
-                url: 'rest/clients',
+                url: 'http://localhost:8080/rest/clients',
 				idProperty: 'id',
 				totalProperty: 'count',
 				fields: ['id','firstName','lastName','occupation'],
-//                proxy: new Ext.data.HttpProxy({
-//                    url: 'rest/clients'
+                // ScriptTagProxy doesn't work for some reason
+//                proxy: new Ext.data.ScriptTagProxy({
+//                    url: 'http://localhost:8080/rest/clients'
 //                })
 			});
 			clientStore.setDefaultSort('id','asc');
+			function renderName(val, x, store) {
+			    return '<b>' + store.data.lastName + '</b><br>' + val;
+            }
 			Ext.onReady(function() {
 				var grid = new Ext.grid.GridPanel({
 					title: 'Clients',
 					store: clientStore,
 					columns: [
 						{header: "ID", width: 30, dataIndex: 'id', sortable: true},
-						{header: "First Name", width: 100, dataIndex: 'firstName', sortable: true},
-						{header: "Second Name", width: 100, dataIndex: 'lastName', sortable: true},
+						{header: "Name", width: 100, dataIndex: 'firstName', sortable: true, renderer: renderName},
+						{header: "Second Name", width: 100, dataIndex: 'lastName', sortable: true, hidden: true},
 						{header: "Occupation", width: 100, dataIndex: 'occupation', sortable: true, id: 'expand_col'}
 					],
 					autoExpandColumn: 'expand_col',
 					renderTo: Ext.getBody(),
 					width: 500,
+                    frame: true,
+                    stripeRows: true,
 					autoHeight: true,
 					loadMask: true
 				});

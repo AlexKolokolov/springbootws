@@ -1,0 +1,9 @@
+[
+  {"id":1,"firstName":"Bob","lastName":"Marley","occupation":"SINGER"},
+  {"id":2,"firstName":"Elvis","lastName":"Presley","occupation":"SINGER"},
+  {"id":3,"firstName":"Tom","lastName":"Waits","occupation":"SINGER"},
+  {"id":4,"firstName":"Ron","lastName":"Perlman","occupation":"ACTOR"},
+  {"id":5,"firstName":"Shaquille","lastName":"O'Neal","occupation":"ATHLETE"},
+  {"id":6,"firstName":"Ralph","lastName":"Fiennes","occupation":"ACTOR"},
+  {"id":7,"firstName":"Michael","lastName":"Jordan","occupation":"ATHLETE"}
+]
