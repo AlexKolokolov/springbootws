@@ -1,0 +1,116 @@
+<!doctype html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Ext JS Demo</title>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/extjs/3.4.1-1/resources/css/ext-all.css">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/extjs/3.4.1-1/adapter/ext/ext-base.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/extjs/3.4.1-1/ext-all-debug.js"></script>
+    <script type="text/javascript">
+			Ext.BLANK_IMAGE_URL = 'https://cdnjs.cloudflare.com/ajax/libs/extjs/3.4.1-1/resources/images/default/s.gif';
+			var clientStore = new Ext.data.JsonStore({
+				url: 'rest/clients',
+                root: '',
+                restful: true,
+				idProperty: 'id',
+                successProperty:'success',
+				fields: ['id','firstName','lastName','occupation'],
+                writer: new Ext.data.JsonWriter({
+                    encode: false,
+                    writeAllFields: true,
+                    // makes writer send row (not wrapped) data to server
+                    render: function (params, baseParams, data) {
+                        params.jsonData = data;
+                    }
+                }),
+                autoLoad: true, // makes explicit call of load() unnecessary
+                autoSave: false
+			});
+			clientStore.setDefaultSort('id','asc');
+			Ext.onReady(function() {
+				var grid = new Ext.grid.EditorGridPanel({
+					title: 'Clients',
+					store: clientStore,
+					columns: [
+						{header: "ID", width: 30, dataIndex: 'id', sortable: true},
+						{
+						    header: "Name",
+                            width: 100,
+                            dataIndex: 'firstName',
+                            sortable: true,
+                            editor: new Ext.form.TextField({
+                                allowBlank: false
+                            })
+                        },
+						{
+						    header: "Second Name",
+                            width: 100,
+                            dataIndex: 'lastName',
+                            sortable: true,
+                            editor: new Ext.form.TextField({
+                                allowBlank: false
+                            })
+                        },
+						{
+						    header: "Occupation",
+                            width: 100,
+                            dataIndex: 'occupation',
+                            sortable: true,
+                            id: 'expand_col',
+                            editor: new Ext.form.TextField({
+                                allowBlank: false
+                            })
+                        }
+					],
+					autoExpandColumn: 'expand_col',
+					renderTo: Ext.getBody(),
+					width: 500,
+					autoHeight: true,
+					loadMask: true,
+                    clicksToEdit: 1,
+                    sm: new Ext.grid.RowSelectionModel({
+                        singleSelect: true
+                    }),
+                    bbar: { items: [
+                        {
+                            text: 'Save Changes',
+                            handler: function() {
+                                clientStore.save();
+                                clientStore.commitChanges();
+//                                clientStore.load();
+                            }
+                        },
+                        {
+                            text: 'Delete',
+                            handler: function() {
+                                var sm = grid.getSelectionModel();
+                                if (sm.hasSelection()) {
+                                    var sel = sm.getSelected();
+                                    Ext.Msg.show({
+                                        title: 'Remove Client profile',
+                                        buttons: Ext.MessageBox.YESNOCANCEL,
+                                        msg: 'Remove ' + sel.data.firstName + ' ' + sel.data.lastName + '?',
+                                        fn: function (btn) {
+                                            if (btn === 'yes') {
+                                                var conn = new Ext.data.Connection();
+                                                conn.request({
+                                                    url: 'rest/clients/' + sel.data.id,
+                                                    method: 'DELETE',
+                                                    success: function () {
+                                                        grid.getStore().remove(sel)
+                                                    }
+                                                })
+                                            }
+                                        }
+                                    });
+                                }
+                            }
+                        }
+                    ]}
+				});
+                // clientStore.load();
+				console.log(clientStore);
+			});
+		</script>
+</head>
+<body>
+</body>
