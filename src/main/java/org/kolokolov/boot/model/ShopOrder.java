@@ -1,7 +1,7 @@
 package org.kolokolov.boot.model;
 
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -12,8 +12,9 @@ public class ShopOrder {
     @GeneratedValue
     private int id;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @Cascade(value = CascadeType.PERSIST)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JsonManagedReference
+    @JoinColumn(name = "shop_order_id")
     private List<OrderItem> items;
 
     public ShopOrder() {}
@@ -29,5 +30,9 @@ public class ShopOrder {
 
     public List<OrderItem> getItems() {
         return items;
+    }
+
+    public void setItems(List<OrderItem> items) {
+        this.items = items;
     }
 }
